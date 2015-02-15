@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+    <class name="com.racsystem.car.CarData" table="CARDATA">
+        <meta attribute="class-description">
+            This class contains the user detail. 
+        </meta>
+        <id name="id" type="int" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="licensePlate" column="LICENSEPLATE" type="string"/>
+        <property name="manufacturer" column="MANUFACTURER" type="string"/>
+        <property name="model" column="MODEL" type="string"/>
+        <property name="carYear" column="CARYEAR" type="string"/>
+        <property name="color" column="COLOR" type="string"/>
+        <property name="fuelType" column="FUELTYPE" type="string"/>
+        <property name="transmission" column="TRANSMISSION" type="string"/>
+        <property name="status" column="STATUS" type="string"/>
+    </class>
+</hibernate-mapping>

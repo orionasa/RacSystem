@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputScript name="racsystem_js/general.js" library="resources" />
+        <h:outputStylesheet name="racsystem_css/general.css" library="resources" />
+    </h:head>
+
+    <h:body>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+            <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+        </p:dialog>  
+
+        <h:panelGroup id="panelGroup" >
+            <p:panel header="Rent List" style="padding: 0px 0px" >
+                <h:form>  
+                    <p:dataTable var="rent" value="#{rentBean.inRentList}" paginator="true" rows="10" widgetVar="rents">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search All Fields: " />
+                                <p:inputText id="globalFilter" onkeyup="rents.filter()" style="width:150px;" placeholder="Enter a Keyword" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column sortBy="#{rent.carData.licensePlate}#{rent.carData.manufacturer}#{rent.carData.model}" headerText="Car Detail" filterBy="#{rent.carData.licensePlate}#{rent.carData.manufacturer}#{rent.carData.model}" filterStyle="display:none">
+                            <h:outputText value="#{rent.carData.licensePlate}-#{rent.carData.manufacturer} #{rent.carData.model}" />
+                        </p:column>
+
+                        <p:column sortBy="#{rent.customerData.identityNo}#{rent.customerData.firstName}#{rent.customerData.lastName}" headerText="Customer" filterBy="#{rent.customerData.identityNo}#{rent.customerData.firstName}#{rent.customerData.lastName}" filterStyle="display:none">
+                            <h:outputText value="#{rent.customerData.identityNo}-#{rent.customerData.firstName} #{rent.customerData.lastName}" />
+                        </p:column>
+
+                        <p:column sortBy="#{rent.startDate}" headerText="Start Date" filterBy="#{rent.startDate}" filterStyle="display:none">
+                            <h:outputText value="#{rent.startDate}" />
+                        </p:column>
+
+                        <p:column sortBy="#{rent.endDate}" headerText="End Date" filterBy="#{rent.endDate}" filterStyle="display:none">
+                            <h:outputText value="#{rent.endDate}" />
+                        </p:column>
+
+                        <p:column sortBy="#{rent.addressA}" headerText="Delivery Address" filterBy="#{rent.addressA}" filterStyle="display:none">
+                            <h:outputText value="#{rent.addressA}" />
+                        </p:column>
+
+                        <p:column sortBy="#{rent.addressB}" headerText="Receive Address" filterBy="#{rent.addressB}" filterStyle="display:none">
+                            <h:outputText value="#{rent.addressB}" />
+                        </p:column>
+
+                        <p:column sortBy="#{rent.serviceData}" headerText="Services" filterBy="#{rent.serviceData}" filterStyle="display:none">
+                            <h:outputText value="#{rent.serviceData}" />
+                        </p:column>
+
+                        <p:column sortBy="#{rent.price}" headerText="Price" filterBy="#{rent.price}" filterStyle="display:none">
+                            <h:outputText value="#{rent.price} ₺" />
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form> 
+            </p:panel>
+        </h:panelGroup>
+    </h:body>
+</html>
+

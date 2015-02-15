@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+    <class name="com.racsystem.transaction.MaintenanceData" table="MAINTENANCEDATA">
+        <meta attribute="class-description">
+            This class contains the user detail. 
+        </meta>
+        <id name="id" type="int" column="ID">
+            <generator class="native"/>
+        </id>
+        <many-to-one name="carData" column="CARDATA" class="com.racsystem.car.CarData" not-null="true"/>
+        <property name="startDate" column="STARTDATE" type="string"/>
+        <property name="endDate" column="ENDDATE" type="string"/>
+        <property name="detail" column="DETAIL" type="string"/>
+        <property name="price" column="PRICE" type="string"/>
+    </class>
+</hibernate-mapping>

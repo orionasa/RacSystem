@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>RAC System Home</title>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/racsystem_image/racico.ico" />
+        <style>
+            .ui-layout-unit .ui-layout-unit-content{
+                overflow: hidden!important;
+            }
+
+            .ui-accordion .ui-accordion-content{
+                padding: 0px!important;
+                overflow:hidden!important;
+            }
+            .ui-panel-content{
+                padding: 2px 2px !important
+            }
+            .ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield{
+                background: whitesmoke;
+                -moz-box-shadow: inset 0 2px 2px #8f8f8f;
+                -webkit-box-shadow: inset 0 2px 2px #8f8f8f;
+                box-shadow: inset 0 2px 2px #8f8f8f;
+                color: darkslategray;
+            }
+
+            .ui-widget .ui-widget{
+
+                -webkit-box-shadow: inset 1px 2px 6px -2px gray;
+                -moz-box-shadow:inset 1px 2px 6px -2px gray;
+                box-shadow: inset 1px 2px 6px -2px gray;
+            }
+        </style>
+
+    </h:head>
+    <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+            <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+        </p:dialog>  
+
+        <p:layout fullPage="true">  
+
+            <p:layoutUnit position="north" size="42" >  
+                <p:toolbar>  
+                    <p:toolbarGroup align="left" style="position: absolute">  
+                        <h:form>
+
+                            <h:graphicImage url="resources/racsystem_image/racsystem.png" style="margin-bottom:-10px" />
+                            <p:commandButton action="#{homeBean.main()}" icon="ui-icon-home" value="Home" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.rent_a_car()}" icon="ui-icon-key" value="Rent a Car" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_rent_list()}" icon="ui-icon-clipboard" value="Rent List" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.rent_report()}" icon="ui-icon-flag" value="Rent Report" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.add_customer()}" icon="ui-icon-person" value="Add Customer" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_customer_list()}" icon="ui-icon-contact" value="Show Customer List" update="@(#myform)"/>
+                        </h:form>
+                    </p:toolbarGroup>  
+
+                    <p:toolbarGroup align="right">  
+                        <h:form>       
+                            <h:outputText value="#{loginBean.welcome}" escape="false" />
+                            <p:commandButton action="#{loginBean.logout}" icon="ui-icon-power" value="Logout" ></p:commandButton>
+                        </h:form>
+                    </p:toolbarGroup>  
+
+                </p:toolbar>
+            </p:layoutUnit>  
+
+
+            <p:layoutUnit position="west" size="250" style="text-align:center" > 
+                <p:graphicImage url="resources/racsystem_image/raclogohome.png" style=" width: 100%"/>
+                <p:accordionPanel>
+                    <p:tab title="Main Menu" titleStyle="text-align:left">
+                        <h:form>
+                            <p:commandButton action="#{homeBean.rent_a_car()}" value="Rent a Car" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_rent_list()}" value="Rent List" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.rent_report()}" value="Rent History" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                        </h:form>
+                    </p:tab>
+
+                    <p:tab title="Car Menu" titleStyle="text-align:left">
+                        <h:form>
+                            <p:commandButton action="#{homeBean.add_car()}"  value="Add Car" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_car_list()}" value="Show Car List" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                        </h:form>
+                    </p:tab>
+
+                    <p:tab title="Customer Menu" titleStyle="text-align:left">
+                        <h:form>
+                            <p:commandButton action="#{homeBean.add_customer()}" value="Add Customer" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_customer_list()}" value="Show Customer List" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                        </h:form>
+                    </p:tab>
+
+                    <p:tab title="Maintenance Menu" titleStyle="text-align:left">
+                        <h:form>
+                            <p:commandButton action="#{homeBean.add_maintenance()}" value="Add Maintenance" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_maintenance_list()}" value="Show Maintenance List" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                        </h:form>
+                    </p:tab>
+
+                    <p:tab title="Transaction Menu" titleStyle="text-align:left">
+                        <h:form>
+                            <p:commandButton action="#{homeBean.define_price()}" value="Define Price" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.define_office()}" value="Define Office" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.define_service()}" value="Define Service" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                        </h:form>
+                    </p:tab>
+
+                    <p:tab title="Report Menu" titleStyle="text-align:left">
+                        <h:form>
+                            <p:commandButton action="#{homeBean.rent_report()}" value="Rent Report" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_income_list()}" value="Rent Income Report" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_expenseof_list()}" value="Expense of Maintenance Report" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                            <p:commandButton action="#{homeBean.show_car_list()}" value="Show Car List" style=" width: 100%;text-align: left" update="@(#myform)"/>                           
+                            <p:commandButton action="#{homeBean.show_customer_list()}" value="Show Customer List" style=" width: 100%;text-align: left" update="@(#myform)"/>
+                        </h:form>
+                    </p:tab>
+
+                </p:accordionPanel>
+
+            </p:layoutUnit>  
+
+            <p:layoutUnit position="center" >  
+                <h:form style="height: 100%" id="myform">
+                    <iframe src="#{homeBean.navigation()}" frameborder="0" style=" width: 100%; height: 100%" />
+                </h:form>
+            </p:layoutUnit>  
+        </p:layout>  
+    </h:body>
+</html>

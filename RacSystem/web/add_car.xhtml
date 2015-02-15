@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <style>
+            .ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield{
+                background: whitesmoke;
+                -moz-box-shadow: inset 0 2px 2px #8f8f8f;
+                -webkit-box-shadow: inset 0 2px 2px #8f8f8f;
+                box-shadow: inset 0 2px 2px #8f8f8f;
+                color: darkslategray;
+            }
+        </style>
+    </h:head>
+    <h:body>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+            <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+        </p:dialog>  
+        <p:panel header="Add Car" style="padding: 0px 0px" >
+            <h:form id="ttt">  
+                <h:panelGrid cellpadding="2" columns="1" style="padding:0px 0px">
+
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Car Details" style="font-size: 20px"/>
+                        <p:graphicImage url="resources/racsystem_image/car.png" style=" height: 50px;"/>
+
+                    </h:panelGrid>
+
+                    <p:messages id="msg" showDetail="false" closable="true" globalOnly="false" autoUpdate="true" >
+                        <p:effect type="bounce" event="load" delay="0" />
+                    </p:messages>
+
+                    <h:outputText value="License Plate* :" style="font-size:15px"/>
+                    <p:inputText value="#{carBean.licensePlate}" size="60" validatorMessage="License Plate Warrnig:" required="true" requiredMessage="Enter a License Plate">
+                        <f:validateRegex pattern="\d{2}[A-Z]{1,3}\d{2,4}"/>
+                    </p:inputText>
+                    <h:outputText value="E.g: 34ABC345" style="font-size:14px"/>
+                    <p:spacer/>
+
+                    <h:outputText value="Manufacturer* :" style="font-size:15px"/>
+                    <p:inputText value="#{carBean.manufacturer}" size="60" required="true" requiredMessage="Enter a Manufacturer"/>
+                    <p:spacer/>
+
+                    <h:outputText value="Model* :" style="font-size:15px"/>
+                    <p:inputText  value="#{carBean.model}" size="60" required="true" requiredMessage="Enter a Car Model"/>
+                    <p:spacer/>
+
+                    <h:outputText value="Year* :" style="font-size:15px"/>
+                    <p:inputText value="#{carBean.carYear}" size="60" validatorMessage="Invalid Date Type" required="true" requiredMessage="Enter a Year">
+                        <f:validateRegex pattern="\d{4}"/>
+                    </p:inputText>
+                    <h:outputText value="E.g: 2014" style="font-size:14px"/>
+                    <p:spacer/>
+
+                    <h:outputText value="Color* :" style="font-size:15px"/>
+                    <p:colorPicker value="#{carBean.color}"/>
+                    <p:spacer/>
+
+                    <h:outputText value="Fuel Type* :" style="font-size:15px"/>
+                    <p:selectOneMenu value="#{carBean.fuelType}" style=" width: 200px;"  >
+                        <f:selectItem itemLabel="Gasoline" itemValue="Gasoline" />
+                        <f:selectItem itemLabel="Diasel" itemValue="Diasel" />
+                        <f:selectItem itemLabel="Gasoline+LPG" itemValue="Gasoline+LPG" />
+                        <f:selectItem itemLabel="Hybrid" itemValue="Hybrid" />
+                    </p:selectOneMenu>
+                    <p:spacer/>
+
+                    <h:outputText value="Transmission* :" style="font-size:15px"/>
+                    <p:selectOneRadio value="#{carBean.transmission}"   >
+                        <f:selectItem itemLabel="Manual" itemValue="Manual" />
+                        <f:selectItem itemLabel="Semi-automatic" itemValue="Semi-automatic" />
+                        <f:selectItem itemLabel="Automatic" itemValue="Automatic" />
+                    </p:selectOneRadio>
+                    <p:spacer/>
+
+                    <h:outputText value="Status* :" style="font-size:15px"/>
+                    <p:selectOneMenu  value="#{carBean.status}" style=" width: 200px;"  >
+                        <f:selectItem itemLabel="Free" itemValue="Free" />
+                        <f:selectItem itemLabel="In-Rent" itemValue="In-Rent" />
+                        <f:selectItem itemLabel="In-Reserve" itemValue="In-Reserve" />
+                        <f:selectItem itemLabel="In-Maintenance" itemValue="In-Maintenance" />
+                    </p:selectOneMenu>
+                    <p:spacer/>
+
+                    <h:outputText value="Price Per Day :" style="font-size:15px"/>
+                    <p:inputText value="#{carBean.price}" required="true" requiredMessage="Enter Price" validatorMessage="Invalid Value" placeholder="E.g 20 ₺ ">
+                        <f:validateRegex pattern="\d*"/>
+                    </p:inputText>
+                    <p:spacer/>
+                    <h:panelGrid columns="3">
+                        <p:commandButton value="Confirm" icon="ui-icon-check" action="#{carBean.addCar()}" onclick="jumpToTop()" />
+                        <p:button value="Reset" onclick="this.form.reset()" icon="ui-icon-trash"/>
+                    </h:panelGrid>
+
+                </h:panelGrid>
+            </h:form> 
+        </p:panel>
+    </h:body>
+</html>
+

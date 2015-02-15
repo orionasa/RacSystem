@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+    <class name="com.racsystem.customer.CustomerData" table="CUSTOMERDATA">
+        <meta attribute="class-description">
+            This class contains the user detail. 
+        </meta>
+        <id name="id" type="int" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="rentalType" column="RENTALTYPE" type="string"/>
+        <property name="identityNo" column="IDENTITYNO" type="string"/>
+        <property name="firstName" column="FIRSTNAME" type="string"/>
+        <property name="lastName" column="LASTNAME" type="string"/>
+        <property name="phoneNumber" column="PHONENUMER" type="string"/>
+        <property name="mail" column="MAIL" type="string"/>
+        <property name="city" column="CITY" type="string"/>
+        <property name="address" column="ADDRESS" type="string"/>
+    </class>
+</hibernate-mapping>

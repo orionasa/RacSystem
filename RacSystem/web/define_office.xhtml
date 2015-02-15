@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputScript name="racsystem_js/general.js" library="resources" />
+        <h:outputStylesheet name="racsystem_css/general.css" library="resources" />
+    </h:head>
+    <h:body>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+            <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+        </p:dialog>  
+        <h:panelGroup id="panelGroup" >
+            <p:panel header="Office List" style="padding: 0px 0px" >
+                <h:form>  
+                    <p:dataTable var="office" value="#{officeBean.officeList}" paginator="true" rows="10" widgetVar="offices">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search All Fields: " />
+                                <p:inputText id="globalFilter" onkeyup="offices.filter()" style="width:150px;" placeholder="Enter a Keyword" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column sortBy="id" headerText="Office ID" filterBy="id" filterStyle="display:none">
+                            <h:outputText value="#{office.id}" />
+                        </p:column>
+
+                        <p:column sortBy="officeName" headerText="Office Name" filterBy="officeName" filterStyle="display:none">
+                            <h:outputText value="#{office.officeName}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form> 
+            </p:panel>
+            <br/>
+            <p:messages id="msg" showDetail="false" closable="true" globalOnly="false" autoUpdate="true" >
+                <p:effect type="bounce" event="load" delay="0" />
+            </p:messages>
+            <p:panel header="Add Office">
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <p:inputTextarea value="#{officeBean.office}" required="true" requiredMessage="Enter Office Details"  placeholder="Enter Office Details"/>
+                        <p:commandButton action="#{officeBean.addOffice()}" value="Add Office" update="@(#panelGroup)" />
+                        <p:button onclick="this.form.reset()" value="Reset" icon="ui-icon-trash"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
+            <p:panel header="Delete Office">
+                <h:form>
+                    <p:inputText value="#{officeBean.deletedOffice}" placeholder="Enter a Office ID" required="true" requiredMessage="Enter a Office ID"/>
+                    <p:commandButton action="#{officeBean.deleteOffice()}" value="Delete" update="@(#panelGroup)"/>
+                    <p:button onclick="this.form.reset()" value="Reset" icon="ui-icon-trash"/>
+                </h:form>
+            </p:panel>
+        </h:panelGroup>
+
+
+    </h:body>
+</html>
+

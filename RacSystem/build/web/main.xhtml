@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="racsystem_css/general.css" library="resources" />
+
+    </h:head>
+    <h:body>
+        <h:panelGroup id="panelGroup" >
+            <p:panel header="Income/Expense Details">
+                <h:panelGrid columns="3" style=" margin-left: auto; margin-right:  auto">
+                    <h:outputText value="Income #{incomeBean.total} ₺" style=" color:  green; font-size: 30px"/>
+                    <h:outputLabel value=" - " style="font-size: 30px"/>
+                    <h:outputText value="Expense #{expenseOfBean.total} ₺" style=" color: red; font-size: 30px;"/>
+                </h:panelGrid>
+            </p:panel>
+            <p:panel header="Show Car List" style="padding: 0px 0px" >
+                <h:form>  
+                    <p:dataTable var="car" value="#{carBean.carDataList}" paginator="true" rows="10" widgetVar="cars">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search All Fields: " />
+                                <p:inputText id="globalFilter" onkeyup="cars.filter()" style="width:150px;" placeholder="Enter a Keyword" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column sortBy="licensePlate" headerText="License Plate" filterBy="licensePlate" filterStyle="display:none">
+                            <h:outputText value="#{car.licensePlate}" />
+                        </p:column>
+
+                        <p:column sortBy="manufacturer" headerText="Manufacturer" filterBy="manufacturer" filterStyle="display:none">
+                            <h:outputText value="#{car.manufacturer}" />
+                        </p:column>
+
+                        <p:column sortBy="model" headerText="Model" filterBy="model" filterStyle="display:none">
+                            <h:outputText value="#{car.model}" />
+                        </p:column>
+
+                        <p:column sortBy="carYear" headerText="Year" filterBy="carYear" filterStyle="display:none">
+                            <h:outputText value="#{car.carYear}" />
+                        </p:column>
+
+                        <p:column sortBy="color" headerText="Color" style=" background-color: ##{car.color}" />
+
+                        <p:column sortBy="fuelType" headerText="Fuel Type" filterBy="fuelType" filterStyle="display:none">
+                            <h:outputText value="#{car.fuelType}" />
+                        </p:column>
+
+                        <p:column sortBy="transmission" headerText="Transmission" filterBy="transmission" filterStyle="display:none">
+                            <h:outputText value="#{car.transmission}" />
+                        </p:column>
+
+                        <p:column sortBy="status" headerText="Status" filterBy="status" filterStyle="display:none">
+                            <h:outputText value="#{car.status}" />
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form> 
+            </p:panel>
+        </h:panelGroup>
+    </h:body>
+</html>
+

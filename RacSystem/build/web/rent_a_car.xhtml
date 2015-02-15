@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputScript name="racsystem_js/general.js" library="resources" />
+        <style>
+            .ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield{
+                background: whitesmoke;
+                -moz-box-shadow: inset 0 2px 2px #8f8f8f;
+                -webkit-box-shadow: inset 0 2px 2px #8f8f8f;
+                box-shadow: inset 0 2px 2px #8f8f8f;
+                color: darkslategray;
+            }
+        </style>
+        <script>
+            function office1() {
+                $('#rent\\:officeA').toggle("slow");
+                $('#rent\\:addressA').toggle("slow");
+            }
+            function office2() {
+                $('#rent\\:officeB').toggle("slow");
+                $('#rent\\:addressB').toggle("slow");
+            }
+        </script>
+    </h:head>
+    <h:body>
+        <h:panelGroup id="panelGroup">
+            <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+            <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+                <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+            </p:dialog>
+            <h:form id="rent">
+                <p:panel header="Rent a Car" style="padding: 0px 0px" >
+
+                    <h:panelGrid columns="1" cellpadding="3">
+                        <p:messages id="msg" showDetail="false" closable="true" globalOnly="false" autoUpdate="true" >
+                            <p:effect type="bounce" event="load" delay="0" />
+                        </p:messages>
+
+                        <h:outputLabel value="Select a Car :"/>
+                        
+                        <p:selectOneMenu value="#{rentBean.carData}" style=" width: 200px;">
+                            <f:selectItems value="#{carBean.freeCars}" var="car" itemLabel="#{car.licensePlate} - #{car.manufacturer} #{car.model}" itemValue="#{car.licensePlate}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Select a Customer :"/>
+                        <p:selectOneMenu value="#{rentBean.customerData}" style=" width: 200px;">
+                            <f:selectItems value="#{customerBean.customerDataList}" var="customer" itemLabel="#{customer.identityNo} - #{customer.firstName} #{customer.lastName}" itemValue="#{customer.identityNo}"/>
+                        </p:selectOneMenu>
+                        <h:outputLabel value="Start Date :"/>
+                        <p:calendar id="popup" value="#{rentBean.startDate}" required="true" requiredMessage="Enter Start Date" mindate="#{maintenanceBean.today}" />
+                        <h:outputLabel value="End Date :"/>
+                        <p:calendar id="popup2" value="#{rentBean.endDate}" required="true" requiredMessage="Enter Stop Date" mindate="#{maintenanceBean.today}"/>
+
+                        <h:outputLabel value="Delivery Address :"/>
+                        <p:selectBooleanCheckbox value="#{rentBean.selectedAddress1}" itemLabel="Deliver From Office">
+                            <p:ajax  oncomplete="office1()" />
+                        </p:selectBooleanCheckbox>
+
+                        <p:inputTextarea id="addressA" value="#{rentBean.addressA}" placeholder="Enter an Address" />
+
+                        <p:selectOneMenu id="officeA" value="#{rentBean.officeA}" style=" width: 200px; display: none;">
+                            <f:selectItem itemLabel="Select Delivery Address" itemValue=""/>
+                            <f:selectItems value="#{officeBean.officeList}" var="office" itemLabel="#{office.officeName}" itemValue="#{office.officeName}"/>
+                        </p:selectOneMenu>
+                        <h:outputLabel value="Receiving Address :"/>
+                        <p:selectBooleanCheckbox value="#{rentBean.selectedAddress2}" itemLabel="Receive From Office">
+                            <p:ajax  oncomplete="office2()" />
+                        </p:selectBooleanCheckbox>
+
+                        <p:inputTextarea id="addressB" value="#{rentBean.addressB}" placeholder="Enter an Address" />
+
+                        <p:selectOneMenu id="officeB" value="#{rentBean.officeB}" style=" width: 200px; display: none;">
+                            <f:selectItem itemLabel="Select Receive Address" itemValue=""/>
+                            <f:selectItems value="#{officeBean.officeList}" var="office" itemLabel="#{office.officeName}" itemValue="#{office.officeName}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Services :"/>
+                        <p:selectCheckboxMenu id="menu" value="#{rentBean.serviceData}" label="Services" style=" width: 200px"
+                                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+
+                            <f:selectItems value="#{serviceBean.serviceList}" var="ser" itemLabel="#{ser.service} - Price: #{ser.price} ₺" itemValue="#{ser.service}" />
+                        </p:selectCheckboxMenu>
+
+                        <h:panelGrid columns="2">
+                            <p:commandButton action="#{rentBean.calculate()}" value="Create Rent Form" update="@(#dialog)" onclick="goster()"/>
+                            <p:button value="Reset" onclick="this.form.reset()"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                </p:panel>
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup id="dialogGroup">
+            <p:panel header="Confirmation">
+                <h:form id="dialog">
+                    <p:inputText value="#{rentBean.carData}" style=" display: none"/>
+                    <p:inputText value="#{rentBean.customerData}" style=" display: none"/>
+                    <p:inputText value="#{rentBean.startDate}"  style=" display: none"/>
+                    <p:inputText value="#{rentBean.endDate}"  style=" display: none"/>
+                    <p:inputText value="#{rentBean.addressA}"  style=" display: none"/>
+                    <p:inputText value="#{rentBean.addressB}"  style=" display: none"/>
+                    <p:inputText value="#{rentBean.officeA}"  style=" display: none"/>
+                    <p:inputText value="#{rentBean.officeB}"  style=" display: none"/>
+                    <p:selectBooleanCheckbox value="#{rentBean.selectedAddress1}"  style=" display: none"/>
+                    <p:selectBooleanCheckbox value="#{rentBean.selectedAddress2}"  style=" display: none"/>
+                    <p:selectCheckboxMenu id="menu" value="#{rentBean.serviceData}" label="Services"  style=" display: none"
+                                          filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+
+                        <f:selectItems value="#{serviceBean.serviceList}" var="ser" itemLabel="#{ser.service} - Price: #{ser.price} ₺" itemValue="#{ser.service}" />
+                    </p:selectCheckboxMenu>
+                    <p:panelGrid>
+                        <f:facet name="header">
+                            <p:row>
+                                <p:column>License Plate</p:column>
+                                <p:column>Customer ID</p:column>
+                                <p:column>Start Date</p:column>
+                                <p:column>End Date</p:column>
+                                <p:column>Delivery Address</p:column>
+                                <p:column>Receive Address</p:column>
+                                <p:column>Total Price</p:column>
+                                <p:column></p:column>
+                            </p:row>
+                        </f:facet>
+                        <p:row>
+                            <p:column>#{rentBean.carData}</p:column>
+                            <p:column>#{rentBean.customerData}</p:column>
+                            <p:column>#{rentBean.startDate}</p:column>
+                            <p:column>#{rentBean.endDate}</p:column>
+                            <p:column>#{rentBean.addressA}#{rentBean.officeA}</p:column>
+                            <p:column>#{rentBean.addressB}#{rentBean.officeB}</p:column>
+                            <p:column>#{rentBean.price} ₺</p:column>
+                            <p:column> 
+                                <p:commandButton value="Confirm" action="#{rentBean.add()}" onclick="kaybet()"/>
+                                <p:button onclick="kaybet()" icon="ui-icon-circle-close"/>
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+                </h:form>
+            </p:panel>
+        </h:panelGroup>
+    </h:body>
+</html>
+

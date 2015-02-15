@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputScript name="racsystem_js/general.js" library="resources" />
+        <h:outputStylesheet name="racsystem_css/general.css" library="resources" />
+
+    </h:head>
+
+    <h:body>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+            <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+        </p:dialog>  
+        <h:panelGroup id="panelGroup" >
+            <p:panel header="Income List" style="padding: 0px 0px" >
+                <h:form>  
+                    <p:dataTable var="income" value="#{incomeBean.incomeList}" paginator="true" rows="10" widgetVar="incomes">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search All Fields: " />
+                                <p:inputText id="globalFilter" onkeyup="incomes.filter()" style="width:150px;" placeholder="Enter a Keyword" />
+                            </p:outputPanel>
+                        </f:facet>
+                        <f:facet name="footer">
+                            <h:outputText value="Total Rent Income : #{incomeBean.total} ₺"/>
+                        </f:facet>
+
+                        <p:column sortBy="#{income.licensePlate}" headerText="License Plate" filterBy="#{income.licensePlate}" filterStyle="display:none">
+                            <h:outputText value="#{income.licensePlate}" />
+                        </p:column>
+
+                        <p:column sortBy="#{income.rentTimes}" headerText="Rent Count" filterBy="#{income.rentTimes}" filterStyle="display:none">
+                            <h:outputText value="#{income.rentTimes}" />
+                        </p:column>
+
+                        <p:column sortBy="#{income.income}" headerText="Price" filterBy="#{income.income}" filterStyle="display:none">
+                            <h:outputText value="#{income.income} ₺" />
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form> 
+            </p:panel>
+        </h:panelGroup>
+    </h:body>
+</html>
+

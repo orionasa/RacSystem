@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputScript name="racsystem_js/general.js" library="resources" />
+        <h:outputStylesheet name="racsystem_css/general.css" library="resources" />
+    </h:head>
+
+    <h:body>
+        
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+            <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+        </p:dialog>  
+        <h:panelGroup id="panelGroup">
+            <p:panel header="Show Customer List" style="padding: 0px 0px" >
+                <h:form>  
+                    <p:dataTable var="customer" value="#{customerBean.customerDataList}" paginator="true" rows="10" widgetVar="customers">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search All Fields: " />
+                                <p:inputText id="globalFilter" onkeyup="customers.filter()" style="width:150px;" placeholder="Enter a Keyword" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column sortBy="rentalType" headerText="Rental Type" filterBy="rentalType" filterStyle="display:none">
+                            <h:outputText value="#{customer.rentalType}" />
+                        </p:column>
+                        
+                        <p:column sortBy="identityNo" headerText="Identity No" filterBy="identityNo" filterStyle="display:none">
+                            <h:outputText value="#{customer.identityNo}" />
+                        </p:column>
+                        
+                        <p:column sortBy="firstName" headerText="First Name" filterBy="firstName" filterStyle="display:none">
+                            <h:outputText value="#{customer.firstName}" />
+                        </p:column>
+                        
+                        <p:column sortBy="lastName" headerText="Last Name" filterBy="lastName" filterStyle="display:none">
+                            <h:outputText value="#{customer.lastName}" />
+                        </p:column>
+                        
+                        <p:column sortBy="phoneNumber" headerText="Phone Number" filterBy="phoneNumber" filterStyle="display:none">
+                            <h:outputText value="#{customer.phoneNumber}" />
+                        </p:column>
+                        
+                        <p:column sortBy="mail" headerText="Mail" filterBy="mail" filterStyle="display:none">
+                            <h:outputText value="#{customer.mail}" />
+                        </p:column>
+                        
+                        <p:column sortBy="city" headerText="City" filterBy="city" filterStyle="display:none">
+                            <h:outputText value="#{customer.city}" />
+                        </p:column>
+                        
+                        <p:column sortBy="address" headerText="Address" filterBy="address" filterStyle="display:none">
+                            <h:outputText value="#{customer.address}" />
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:form> 
+            </p:panel>
+            
+            <p:panel header="Edit Customer List">
+                <h:form>
+                    <h:panelGrid columns="3">
+                        
+                        <p:selectOneMenu value="#{customerBean.editedCustomer}" style=" width: 200px;"  >
+                            <f:selectItems  value="#{customerBean.getCustomerList()}" var="customer" itemLabel="#{customer.identityNo} - #{customer.firstName} #{customer.lastName}" itemValue="#{customer.identityNo}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:commandButton action="#{customerBean.deleteCustomer()}" value="Delete" update="@(#panelGroup)"/>
+                        
+                        <p:commandButton action="#{customerBean.showEditedCustomer()}" value="Edit" update="@(#dialog)" onclick="goster()"/>
+                        
+                    </h:panelGrid>
+                    
+                    <p:messages id="msg" showDetail="false" closable="true" globalOnly="false" autoUpdate="true" >
+                        <p:effect type="bounce" event="load" delay="0" />
+                    </p:messages>
+                    
+                </h:form>
+            </p:panel>
+        </h:panelGroup>
+        
+        <h:panelGroup id="dialogGroup">
+            <h:form id="dialog">  
+                
+                <h:panelGrid cellpadding="2" columns="1" style="padding:0px 0px">
+                    <h:outputText value="Customer Details - #{customerBean.firstName} #{customerBean.lastName} (#{customerBean.identityNo}) " style="font-size: 20px"/>
+                    
+                    <p:messages id="msg" showDetail="false" closable="true" globalOnly="false" autoUpdate="true" >
+                        <p:effect type="bounce" event="load" delay="0" />
+                    </p:messages>
+
+                    <h:outputText value="Rental Type* :" style="font-size:15px"/>
+                    <p:selectOneRadio value="#{customerBean.rentalType}"   required="true"  >
+                        <f:selectItem itemLabel="Personal" itemValue="Personal" />
+                        <f:selectItem itemLabel="Company" itemValue="Company" />
+                    </p:selectOneRadio>
+ 
+                    <p:inputText value="#{customerBean.identityNo}"  style=" display: none" />    
+                    
+                    <p:inputText value="#{customerBean.firstName}" style=" display: none" />
+                    
+                    <p:inputText value="#{customerBean.lastName}"  style=" display: none"/>
+                 
+                    <h:outputText value="Phone Number* :" style="font-size:15px"/>
+                    <p:inputMask mask="(9999)-999-99-99"  required="true" value="#{customerBean.phoneNumber}" size="60" />
+                    <p:spacer/>
+
+                    <h:outputText value="Mail* :" style="font-size:15px"/>
+                    <p:inputText value="#{customerBean.mail}" size="60" required="true" validatorMessage="Invalid Mail Address">
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </p:inputText>
+                    <p:spacer/>
+
+                    <h:outputText value="City* :" style="font-size:15px"/>
+                    <p:inputText value="#{customerBean.city}" size="60"/>
+                    <p:spacer/>
+
+                    <h:outputText value="Address* :" style="font-size:15px"/>
+                    <p:inputTextarea value="#{customerBean.address}"  autoResize="true" />
+                    <p:spacer/>
+
+                    <h:panelGrid columns="3">
+                        <p:commandButton value="Update" icon="ui-icon-check" action="#{customerBean.updateCustomer()}" update="@(#panelGroup)" onclick="kaybet()" />
+                        <p:commandButton value="Cancel" onclick="kaybet()"/>
+                    </h:panelGrid>
+
+                </h:panelGrid>
+            </h:form> 
+        </h:panelGroup>
+    </h:body>
+</html>
+

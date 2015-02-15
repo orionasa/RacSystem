@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+
+        <h:outputScript name="jquery/jquery.js" library="primefaces" />
+
+        <h:outputStylesheet name="racsystem_css/login.css" library="resources" />
+
+        <h:outputScript name="racsystem_js/login.js" library="resources" />
+
+        <title>RAC System Login</title>
+
+        <link rel="shortcut icon" type="image/x-icon" href="resources/racsystem_image/racico.ico" />
+
+        <style type="text/css">
+
+            .ui-panel-titlebar{
+                padding:10px 10px!important;
+            }
+
+            .ui-panel-content{
+                padding-left: 45px!important;
+            }
+
+            ::-webkit-input-placeholder { 
+                color: cornsilk;
+                font-weight: normal;
+            }
+
+            .ui-messages-warn-icon {
+                margin-top: 0px!important;
+                left: 10px;
+            }
+
+            .ui-messages-warn-summary, .ui-messages-warn-detail{
+                font-size: 15px;
+            }
+
+        </style>
+
+    </h:head>
+
+    <h:body>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+            <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+        </p:dialog>  
+
+        <h:graphicImage url="resources/racsystem_image/background.jpg" id="bg"/>
+
+        <h:graphicImage url="resources/racsystem_image/raclogo.png" id="raclogo"/>
+
+        <h:form id="loginForm" >      
+
+            <p:panel id="loginPanel" style="text-align: center" >
+
+                <f:facet name="header" > 
+                    <span style="font-size:18px; font-weight: normal">RAC System Login</span>
+                </f:facet>
+
+                <p:ajax event="close"/>
+
+                <h:panelGrid id="loginPanelGrid" columns="2" cellpadding="5" >
+
+                    <h:graphicImage  style=" height: 150px;width: 150px" url="resources/racsystem_image/raclogo.png" />
+
+                    <h:panelGrid  columns="1" cellpadding="5" >
+
+                        <p:inputText id="username" value="#{loginBean.uname}"  />
+
+                        <p:password id="password" value="#{loginBean.password}"  feedback="false" />
+
+                        <h:panelGrid columns="3" style="float:right; margin-right: -3px">
+
+                            <p:commandButton id="loginButton" style="float:right; margin-right:0px" action="#{loginBean.login()}" value="Login"/>
+
+                            <p:commandButton id="exitButton" style="float:right; margin-right:0px" onclick="exitButton()" value="Exit"  />
+
+                            <p:commandButton icon="ui-icon-trash" type="reset"  />
+
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+
+                <p:messages id="msg" showDetail="true" closable="true" globalOnly="false" autoUpdate="true" >
+                    <p:effect type="bounce" event="load" delay="0" />
+                </p:messages>
+
+            </p:panel>
+
+            <p:watermark for="username" value="Username" />
+
+            <p:watermark for="password" value="Password" />
+
+        </h:form>
+
+    </h:body> 
+
+</html>

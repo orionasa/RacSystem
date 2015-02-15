@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
+    <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
+    <property name="hibernate.connection.url">jdbc:derby://localhost:1527/racsystemDB</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">pass</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <mapping resource="com/racsystem/login/hibernate/UserData.hbm.xml"/>
+    <mapping resource="com/racsystem/car/hibernate/CarData.hbm.xml"/>
+    <mapping resource="com/racsystem/customer/hibernate/CustomerData.hbm.xml"/>
+    <mapping resource="com/racsystem/definition/hibernate/CashData.hbm.xml"/>
+    <mapping resource="com/racsystem/definition/hibernate/OfficeData.hbm.xml"/>
+    <mapping resource="com/racsystem/definition/hibernate/ServiceData.hbm.xml"/>
+    <mapping resource="com/racsystem/transaction/hibernate/MaintenanceData.hbm.xml"/>
+    <mapping resource="com/racsystem/transaction/hibernate/RentData.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

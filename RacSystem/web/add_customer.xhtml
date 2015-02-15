@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <style>
+            .ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield{
+                background: whitesmoke;
+                -moz-box-shadow: inset 0 2px 2px #8f8f8f;
+                -webkit-box-shadow: inset 0 2px 2px #8f8f8f;
+                box-shadow: inset 0 2px 2px #8f8f8f;
+                color: darkslategray;
+            }
+        </style>
+    
+    </h:head>
+    <h:body>
+        
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />  
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" >  
+            <p:graphicImage value="resources/racsystem_image/ajaxloader.gif" />  
+        </p:dialog>  
+        <p:panel header="Add Customer" style="padding: 0px 0px" >
+            <h:form>  
+                <h:panelGrid cellpadding="2" columns="1" style="padding:0px 0px">
+                        <h:panelGrid columns="2">
+                        <h:outputText value="Customer Details" style="font-size: 20px"/>
+                        <p:graphicImage url="resources/racsystem_image/cust.png" style=" height: 50px;"/>
+
+                    </h:panelGrid>
+                    <p:messages id="msg" showDetail="false" closable="true" globalOnly="false" autoUpdate="true" >
+                        <p:effect type="bounce" event="load" delay="0" />
+                    </p:messages>
+
+                    <h:outputText value="Rental Type* :" style="font-size:15px"/>
+                    <p:selectOneRadio value="#{customerBean.rentalType}"   required="true" requiredMessage="Select Rental Type" >
+                        <f:selectItem itemLabel="Personal" itemValue="Personal" />
+                        <f:selectItem itemLabel="Company" itemValue="Company" />
+                    </p:selectOneRadio>
+                    <p:spacer/>
+
+                    <h:outputText value="Identity No* :" style="font-size:15px"/>
+                    <p:inputText value="#{customerBean.identityNo}"  required="true" requiredMessage="Enter a Identity No" size="60" validatorMessage="Enter 11 digit">
+                        <f:validateLength maximum="11" minimum="11"/> 
+                    </p:inputText>
+                    <p:spacer/>
+
+                    <h:outputText value="First Name* :" style="font-size:15px"/>
+                    <p:inputText value="#{customerBean.firstName}"  required="true" size="60" requiredMessage="Enter First Name" />
+                    <p:spacer/>
+
+                    <h:outputText value="Last Name* :" style="font-size:15px"/>
+                    <p:inputText value="#{customerBean.lastName}"  required="true" size="60" requiredMessage="Enter Last Name"/>
+                    <p:spacer/>
+
+                    <h:outputText value="Phone Number* :" style="font-size:15px"/>
+                    <p:inputMask mask="(9999)-999-99-99"  required="true" value="#{customerBean.phoneNumber}" size="60" requiredMessage="Enter a Phone Number" />
+                    <p:spacer/>
+
+                    <h:outputText value="Mail* :" style="font-size:15px"/>
+                    <p:inputText value="#{customerBean.mail}" size="60" required="true" validatorMessage="Invalid Mail Address" requiredMessage="Enter a Mail Address">
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </p:inputText>
+                    <p:spacer/>
+
+                    <h:outputText value="City :" style="font-size:15px"/>
+                    <p:inputText value="#{customerBean.city}" size="60"/>
+                    <p:spacer/>
+
+                    <h:outputText value="Address :" style="font-size:15px"/>
+                    <p:inputTextarea value="#{customerBean.address}"  autoResize="true" />
+                    <p:spacer/>
+
+                    <h:panelGrid columns="3">
+                        <p:commandButton value="Confirm" icon="ui-icon-check" action="#{customerBean.addCustomer()}"  onclick="jumpToTop()" />
+                        <p:button value="Reset" onclick="this.form.reset()" icon="ui-icon-trash"/>
+                    </h:panelGrid>
+                    
+                </h:panelGrid>
+            </h:form> 
+        </p:panel>
+    </h:body>
+</html>
+
